@@ -11,12 +11,19 @@ import Particles from 'react-particles-js'
 import 'tachyons';
 import Clarifai from 'clarifai';
 
+
+/*
+const app = new Clarifai.App({
+ apiKey: process.env.API_CLARIFAI
+});
+*/
+
 const app = new Clarifai.App({
  apiKey: '0d982bd5416d42eb872af454475fee9e'
 });
 
-
-const uri = 'https://hidden-cove-88698.herokuapp.com';
+ const uri = 'http://localhost:3001';
+  /* const uri = 'https://hidden-cove-88698.herokuapp.com' */
 
 const particlesOptions = {
 	particles: {
