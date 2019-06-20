@@ -1,7 +1,7 @@
 import React from 'react';
 	
 
-  const uri = ' https://hidden-cove-88698.herokuapp.com';
+  const uri = 'https://hidden-cove-88698.herokuapp.com';
 
 
 
