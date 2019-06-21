@@ -28,21 +28,21 @@ class Register extends React.Component {
     if (!email.includes('@')) {
       emailError = 'Email must contain @';
     }
-    if (!email < 3) {
+    if (email.length < 3) {
       emailError = 'This is not a valid email';
     }
     if (emailError) {
       this.setState({ emailError });
     }
 
-    if (!name) {
+    if (name.length === 0) {
       nameError = 'Name cannot be blank';
     }
     if (nameError) {
       this.setState({ nameError });
     }
 
-    if (!password < 6) {
+    if (password < 6) {
       passwordError = 'Password has to be atleast 6 characters long';
     }
     if (passwordError) {
@@ -86,8 +86,7 @@ onSubmitSignIn = () => {
     })
   } else {
     this.props.onRouteChange('register');
-  }
-    
+  } 
   }
 
 
@@ -126,7 +125,7 @@ onSubmitSignIn = () => {
         name="password"  
         id="password" 
         onChange={this.onPasswordChange}
-        />
+        /><div style={{ fontSize: 12, color: "red" }}>{this.state.passwordError}</div>
       </div>
     </fieldset>
     <div className="">
@@ -135,7 +134,6 @@ onSubmitSignIn = () => {
       className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
       type="submit" 
       value="Register" 
-      /><div style={{ fontSize: 12, color: "red" }}>{this.state.passwordError}</div>
     </div>
   </div>
 </main>
