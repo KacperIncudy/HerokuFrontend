@@ -13,13 +13,14 @@ import Clarifai from 'clarifai';
 
 
 /*
+
 const app = new Clarifai.App({
- apiKey: '0d982bd5416d42eb872af454475fee9e'
+ apiKey: process.env.API_CLARIFAI
 });
 
 */
 const app = new Clarifai.App({
- apiKey: process.env.API_CLARIFAI
+ apiKey: '0d982bd5416d42eb872af454475fee9e'
 });
 
 
