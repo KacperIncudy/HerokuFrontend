@@ -66,7 +66,7 @@ class Register extends React.Component {
   }
 
 onSubmitSignIn = () => {
-  const isValid = this.validate();
+  const isValid = this.validate(this.state.email, this.state.name, this.state.password);
   if(isValid) {
     fetch(uri + '/register', {
       method: 'post',
