@@ -1,9 +1,10 @@
 import React from 'react';
 
 
-
-   const uri = 'http://localhost:3001';
-  /* const uri = 'https://hidden-cove-88698.herokuapp.com' */
+const uri = 'https://hidden-cove-88698.herokuapp.com' 
+   
+  /* 
+  const uri = 'http://localhost:3001';*/
 
 
 
