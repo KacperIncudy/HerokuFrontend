@@ -84,6 +84,8 @@ onSubmitSignIn = () => {
          this.props.onRouteChange('home');
        } 
     })
+  } else {
+    this.props.onRouteChange('register');
   }
     
   }
