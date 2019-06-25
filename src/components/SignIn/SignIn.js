@@ -1,10 +1,8 @@
 import React from 'react';
 
 
-const uri = 'https://hidden-cove-88698.herokuapp.com' 
-   
-  /* 
-  const uri = 'http://localhost:3001';*/
+  const uri = 'http://localhost:3001'; 
+  /* const uri = 'https://hidden-cove-88698.herokuapp.com';   */
 
 
 
@@ -27,7 +25,7 @@ class Signin extends React.Component {
 
   onSubmitSignIn = () => {
     fetch(uri + '/signin', {
-      method: 'post',
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.signInEmail,

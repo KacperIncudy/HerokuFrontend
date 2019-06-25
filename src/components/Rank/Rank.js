@@ -1,17 +1,13 @@
 import React from 'react';
-	
-const Rank = ({name, entries}) => {
+
+const Rank = ({ users }) => {
 	return(
 		 <div>
-		 	<div className='white f3'>
-		 		{`${name} , your current entry count is...`}
-      				<div className='white f1 '>
-       					 {entries}
-     				</div>
-     		</div>
-		 </div>
-		);
+     <ul className="ma1" style={{ listStyleType: "none"}}>
+     {users.map(user => <li key={user.id}>{user.name} mit {user.entries} entries</li>)}
+		 </ul>
+     </div>
+);
 }
-
 
 export default Rank;

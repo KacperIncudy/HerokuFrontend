@@ -1,8 +1,7 @@
 import React from 'react';
 	
-
-const uri = 'https://hidden-cove-88698.herokuapp.com';
-  /* const uri = 'http://localhost:3001'; */
+const uri = 'http://localhost:3001';
+  /* const uri = 'https://hidden-cove-88698.herokuapp.com'; */
 
 const initialState = {
   email: '',
@@ -69,8 +68,9 @@ onSubmitSignIn = () => {
   const isValid = this.validate(this.state.email, this.state.name, this.state.password);
   if(isValid) {
     fetch(uri + '/register', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
+      method: 'POST',
+      headers: {'Accept': 'application/json, text/plain',
+        'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -85,7 +85,7 @@ onSubmitSignIn = () => {
        } 
     })
   } else {
-    this.props.onRouteChange('register');
+    return;
   } 
   }
 
@@ -134,6 +134,7 @@ onSubmitSignIn = () => {
       className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
       type="submit" 
       value="Register" 
+      />
     </div>
   </div>
 </main>

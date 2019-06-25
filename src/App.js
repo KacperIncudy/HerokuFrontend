@@ -10,6 +10,7 @@ import Rank from './components/Rank/Rank';
 import Particles from 'react-particles-js'
 import 'tachyons';
 import Clarifai from 'clarifai';
+import ImageHistory from './components/ImageHistory/ImageHistory';
 
 
 /*
@@ -24,9 +25,9 @@ const app = new Clarifai.App({
 });
 
 
-const uri = 'https://hidden-cove-88698.herokuapp.com';
+/* const uri = 'https://hidden-cove-88698.herokuapp.com'; */
  
-  /* const uri = 'http://localhost:3001'; */
+   const uri = 'http://localhost:3001';
 
 const particlesOptions = {
 	particles: {
@@ -49,6 +50,8 @@ const initialState = {
       imageUrl: '',
       box: {},
       route: 'signin',
+      users: [],
+      images: [],
       isSignedIn: false,
       user: {
         id: '',
@@ -59,13 +62,13 @@ const initialState = {
       }
     }
 
+  
 
-
-		class App extends React.Component {
+class App extends React.Component {
  constructor() {
     super();
     this.state = initialState;
-    }
+  }
 
   loadUser = (data) => {
     this.setState({user: {
@@ -76,7 +79,6 @@ const initialState = {
       joined: data.joined
     }})
   }
-
 
 
  calculateFaceLocation = (data) => {
@@ -101,30 +103,63 @@ onInputChange = (event) => {
 	this.setState({input: event.target.value});
 }
 
+componentDidMount() {
+  this.fetchRank();
+  this.fetchImage();
+}
+
+fetchRank() {
+  fetch(uri + '/score', {
+    method: 'get',
+    headers: {'Content-Type': 'application/json'},
+  })
+  .then(response => response.json())
+  .then(users => this.setState({users}))
+  .catch(err => console.log(err));
+ }
+
+ fetchImage() {
+  fetch(uri + '/history', {
+     method: 'get',
+     headers: {'Content-Type': 'application/json'},
+  })
+  .then(response => response.json())
+  .then(images => this.setState({images}))
+  .catch(err => console.log(err));
+ }
+
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL,
-        this.state.input)
-      .then(response => {
-          if(response) {
-            fetch(uri + '/image', {
-        method: 'put',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-        id: this.state.user.id
-      })
-            })
-            .then(response => response.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count}))
-              }) 
-            .catch(console.log)
-          }
-               this.displayFaceBox(this.calculateFaceLocation(response))
+    app.models.predict(
+      Clarifai.FACE_DETECT_MODEL,
+      this.state.input
+    ).then(response => {
+        if(!response) {
+          return;
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response))
+        fetch(uri + '/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+        .then(() => this.fetchRank())
+        .then(() => this.fetchImage())
+        .catch(e => console.log(e));
       })
       .catch(err => console.log(err));
+
+
+       fetch(uri + '/imagedb', {
+           method: 'put',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify({
+            imageurl: this.state.input,
+            name: this.state.user.name
+              })
+    })              
   }
 
 
@@ -149,14 +184,16 @@ onInputChange = (event) => {
           ? <div>
               <Logo />
               <Rank
-                name={this.state.user.name}
-                entries={this.state.user.entries}
+                users={this.state.users}
               />
               <ImageLinkForm
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
               />
               <FaceRecognition box={box} imageUrl={imageUrl} />
+              <ImageHistory 
+                images={this.state.images}
+              />
             </div>
           : (
              route === 'signin'
